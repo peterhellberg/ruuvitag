@@ -26,20 +26,10 @@ type Acceleration struct {
 }
 
 // DecodeRAWv1 from "Manufacturer Specific Data"-field.
-// Manufacturer ID is 0x0499. The actual data payload is:
 //
-// 		Offset 	Allowed values 	Description
-// 		0 				3 							Data format definition (3 = current sensor readings)
-// 		1 				0…200 					Humidity (one lsb is 0.5%, e.g. 128 is 64%)
-// 		2 				-127…127 				Temperature (MSB is sign, next 7 bits are decimal value)
-// 		3 				0…99 						Temperature (fraction, 1/100.)
-// 		4 - 5 		0…65535 				Pressure (Most Significant Byte first, value - 50kPa)
-// 		6-7 			-32767…32767 		Acceleration-X (Most Significant Byte first)
-// 		8 - 9 		-32767…32767 		Acceleration-Y (Most Significant Byte first)
-// 		10 - 11 	-32767…32767 		Acceleration-Z (Most Significant Byte first)
-// 		12 - 13 	0…65535 				Battery voltage (millivolts). MSB First
+// The data payload is specified at:
 //
-// 	https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1
+// https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1
 //
 func DecodeRAWv1(data []byte) (RAWv1, error) {
 	if len(data) != 16 {
