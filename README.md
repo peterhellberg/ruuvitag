@@ -7,7 +7,7 @@
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/peterhellberg/ruuvi)
 [![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/peterhellberg/ruuvi#license-mit)
 
-This is a Go package for parsing [RuuviTag](https://ruuvi.com/ruuvitag-specs/) sensor data.
+This is a Go package for decoding [RuuviTag](https://ruuvi.com/ruuvitag-specs/) sensor data.
 
 (Currently only supports the [RAWv1](https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1) data format)
 
