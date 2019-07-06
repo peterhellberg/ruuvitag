@@ -51,7 +51,7 @@ func main() {
 {DataFormat:3 Humidity:36.5 Temperature:-2.01 Pressure:99538 Battery:3091 Acceleration:{X:-7 Y:-44 Z:1060}}
 ```
 
-### Using together with [github.com/go-ble/ble](https://github.com/go-ble/ble)
+### Using `ruuvitag` with [github.com/go-ble/ble](https://github.com/go-ble/ble)
 
 ```go
 package main
@@ -109,6 +109,8 @@ func filter(a ble.Advertisement) bool {
 [40c9d52c44974cc296fe2b443aef6850] RSSI: -77: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99457 Battery:3103 Acceleration:{X:-27 Y:-40 Z:1013}}
 [649a163a6ad4462fa3b7dbedcbe47e25] RSSI: -99: {DataFormat:3 Humidity:64 Temperature:16.26 Pressure:99630 Battery:3109 Acceleration:{X:14 Y:116 Z:1035}}
 ```
+
+<img src="https://data.gopher.se/gopher/viking-gopher.svg" align="right" width="30%" height="300">
 
 ## License (MIT)
 
