@@ -1,6 +1,6 @@
 # ruuvitag
 
-<img src="https://ruuvi.com/assets/images/ruuvitag.jpg" align="right" width="202">
+<img src="https://ruuvi.com/assets/images/ruuvitag.jpg" align="right" width="280">
 
 [![Build Status](https://travis-ci.org/peterhellberg/ruuvitag.svg?branch=master)](https://travis-ci.org/peterhellberg/ruuvitag)
 [![Go Report Card](https://goreportcard.com/badge/github.com/peterhellberg/ruuvitag)](https://goreportcard.com/report/github.com/peterhellberg/ruuvitag)
