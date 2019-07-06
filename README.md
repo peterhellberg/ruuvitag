@@ -47,7 +47,7 @@ func main() {
 }
 ```
 
-### Using together with `github.com/go-ble/ble`
+### Using together with [github.com/go-ble/ble](https://github.com/go-ble/ble)
 
 ```go
 package main
