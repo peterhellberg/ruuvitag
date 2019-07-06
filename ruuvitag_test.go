@@ -98,7 +98,7 @@ func TestDecodeRAWv1(t *testing.T) {
 			}
 
 			if _, err := DecodeRAWv1(data); err != ErrManufacturerID {
-				t.Fatalf("expected ManufacturerID")
+				t.Fatalf("expected ManufacturerID, got %q", err)
 			}
 		})
 	})
@@ -137,45 +137,15 @@ func TestCalculateTemperature(t *testing.T) {
 
 func TestCalculatePressure(t *testing.T) {
 	for _, tt := range []struct {
-		b    []byte
+		b    uint16
 		want uint32
 	}{
-		{nil, 0},
-		{[]byte{0x00, 0x00}, 50000},
-		{[]byte{0xC8, 0x7D}, 101325}, // (average sea-level pressure)
-		{[]byte{0xFF, 0xFF}, 115535},
+		{0x0000, 50000},
+		{0xC87D, 101325}, // (average sea-level pressure)
+		{0xFFFF, 115535},
 	} {
 		if got := calculatePressure(tt.b); got != tt.want {
 			t.Fatalf("calculatePressure(%X) = %d, want %d", tt.b, got, tt.want)
-		}
-	}
-}
-
-func TestCalculateAcceleration(t *testing.T) {
-	for _, tt := range []struct {
-		b    []byte
-		want Acceleration
-	}{
-		{nil, Acceleration{}},
-		{[]byte{0xFC, 0x18, 0x03, 0xE8, 0x0, 0x0}, Acceleration{-1000, 1000, 0}},
-	} {
-		if got := calculateAcceleration(tt.b); got != tt.want {
-			t.Fatalf("calculateAcceleration(%#v) = %+v, want %+v", tt.b, got, tt.want)
-		}
-	}
-}
-
-func TestCaluclateAxis(t *testing.T) {
-	for _, tt := range []struct {
-		b    []byte
-		want int16
-	}{
-		{nil, 0},
-		{[]byte{0xFC, 0x18}, -1000},
-		{[]byte{0x03, 0xE8}, 1000},
-	} {
-		if got := calculateAxis(tt.b); got != tt.want {
-			t.Fatalf("calculateAxis(%#v) = %d, want %d", tt.b, got, tt.want)
 		}
 	}
 }

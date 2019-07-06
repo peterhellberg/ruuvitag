@@ -6,7 +6,7 @@ import (
 )
 
 // ManufacturerID sent by RuuviTags
-var ManufacturerID = []byte{0x99, 0x4}
+const ManufacturerID = 0x9904
 
 // RAWv1 Data Format 3
 type RAWv1 struct {
@@ -42,30 +42,43 @@ type Acceleration struct {
 // 	https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1
 //
 func DecodeRAWv1(data []byte) (RAWv1, error) {
-	// Verify the length of the manufacturer data
 	if len(data) != 16 {
 		return RAWv1{}, ErrDataLength
 	}
 
-	// Verify expected Manufacturer ID
-	if !bytes.HasPrefix(data, ManufacturerID) {
+	var p struct {
+		ManufacturerID      uint16
+		DataFormat          uint8
+		Humidity            uint8
+		Temperature         uint8
+		TemperatureFraction uint8
+		Pressure            uint16
+		X, Y, Z             int16
+		BatteryVoltageMv    uint16
+	}
+
+	r := bytes.NewReader(data)
+
+	err := binary.Read(r, binary.BigEndian, &p)
+	if err != nil {
+		return RAWv1{}, err
+	}
+
+	if p.ManufacturerID != ManufacturerID {
 		return RAWv1{}, ErrManufacturerID
 	}
 
-	// Payload in the manufacturer data
-	payload := data[2:16]
-
 	return RAWv1{
-		DataFormat:   payload[0],
-		Humidity:     calculateHumidity(payload[1]),
-		Temperature:  calculateTemperature(payload[2], payload[3]),
-		Pressure:     calculatePressure(payload[4:6]),
-		Acceleration: calculateAcceleration(payload[6:12]),
-		Battery:      calculateBattery(payload[12:14]),
+		DataFormat:   p.DataFormat,
+		Humidity:     calculateHumidity(p.Humidity),
+		Temperature:  calculateTemperature(p.Temperature, p.TemperatureFraction),
+		Pressure:     calculatePressure(p.Pressure),
+		Acceleration: Acceleration{p.X, p.Y, p.Z},
+		Battery:      p.BatteryVoltageMv,
 	}, nil
 }
 
-func calculateHumidity(h byte) float64 {
+func calculateHumidity(h uint8) float64 {
 	return float64(h) * 0.5
 }
 
@@ -79,36 +92,8 @@ func calculateTemperature(d, f uint8) float64 {
 	return -t
 }
 
-func calculatePressure(b []byte) uint32 {
-	if b == nil {
-		return 0
-	}
-
-	return 50000 + uint32(binary.BigEndian.Uint16(b))
-}
-
-func calculateAcceleration(b []byte) Acceleration {
-	if len(b) != 6 {
-		return Acceleration{}
-	}
-
-	return Acceleration{
-		X: calculateAxis(b[0:2]),
-		Y: calculateAxis(b[2:4]),
-		Z: calculateAxis(b[4:6]),
-	}
-}
-
-func calculateAxis(b []byte) int16 {
-	if b == nil {
-		return 0
-	}
-
-	return int16(binary.BigEndian.Uint16(b))
-}
-
-func calculateBattery(b []byte) uint16 {
-	return binary.BigEndian.Uint16(b)
+func calculatePressure(p uint16) uint32 {
+	return uint32(p) + 50000
 }
 
 // Error type
