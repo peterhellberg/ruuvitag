@@ -1,11 +1,11 @@
-# ruuvi
+# ruuvitag
 
 <img src="https://ruuvi.com/assets/images/ruuvitag.jpg" align="right" width="202">
 
-[![Build Status](https://travis-ci.org/peterhellberg/ruuvi.svg?branch=master)](https://travis-ci.org/peterhellberg/ruuvi)
-[![Go Report Card](https://goreportcard.com/badge/github.com/peterhellberg/ruuvi)](https://goreportcard.com/report/github.com/peterhellberg/ruuvi)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/peterhellberg/ruuvi)
-[![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/peterhellberg/ruuvi#license-mit)
+[![Build Status](https://travis-ci.org/peterhellberg/ruuvitag.svg?branch=master)](https://travis-ci.org/peterhellberg/ruuvitag)
+[![Go Report Card](https://goreportcard.com/badge/github.com/peterhellberg/ruuvitag)](https://goreportcard.com/report/github.com/peterhellberg/ruuvitag)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/peterhellberg/ruuvitag)
+[![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/peterhellberg/ruuvitag#license-mit)
 
 This is a Go package for decoding [RuuviTag](https://ruuvi.com/ruuvitag-specs/) sensor data.
 
@@ -17,7 +17,7 @@ This is a Go package for decoding [RuuviTag](https://ruuvi.com/ruuvitag-specs/) 
 
 ## Installation
 
-    go get -u github.com/peterhellberg/ruuvi
+    go get -u github.com/peterhellberg/ruuvitag
 
 ## Usage
 
@@ -29,7 +29,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/peterhellberg/ruuvi"
+	"github.com/peterhellberg/ruuvitag"
 )
 
 func main() {
@@ -41,7 +41,7 @@ func main() {
 		0x04, 0x24, 0x0c, 0x13,
 	}
 
-	if raw, err := ruuvi.DecodeRAWv1(data); err == nil {
+	if raw, err := ruuvitag.DecodeRAWv1(data); err == nil {
 		fmt.Printf("%+v\n", raw)
 	}
 }

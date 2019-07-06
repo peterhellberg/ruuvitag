@@ -1,4 +1,4 @@
-package ruuvi
+package ruuvitag
 
 import (
 	"bytes"
