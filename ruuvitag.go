@@ -5,9 +5,6 @@ import (
 	"encoding/binary"
 )
 
-// ManufacturerID sent by RuuviTags
-const ManufacturerID = 0x9904
-
 // RAWv1 Data Format 3
 type RAWv1 struct {
 	DataFormat   uint8   // 3
@@ -25,9 +22,9 @@ type Acceleration struct {
 	Z int16
 }
 
-// DecodeRAWv1 from "Manufacturer Specific Data"-field.
+// DecodeRAWv1 from Bluetooth "Manufacturer Specific Data"-field.
 //
-// The data payload is specified at:
+// Data Format 3 Protocol Specification (RAWv1) can be found at:
 //
 // https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1
 //
@@ -36,8 +33,11 @@ func DecodeRAWv1(data []byte) (RAWv1, error) {
 		return RAWv1{}, ErrDataLength
 	}
 
+	if !bytes.HasPrefix(data, []byte{0x99, 0x04}) {
+		return RAWv1{}, ErrManufacturerID
+	}
+
 	var p struct {
-		ManufacturerID      uint16
 		DataFormat          uint8
 		Humidity            uint8
 		Temperature         uint8
@@ -47,15 +47,10 @@ func DecodeRAWv1(data []byte) (RAWv1, error) {
 		BatteryVoltageMv    uint16
 	}
 
-	r := bytes.NewReader(data)
+	r := bytes.NewReader(data[2:16])
 
-	err := binary.Read(r, binary.BigEndian, &p)
-	if err != nil {
+	if err := binary.Read(r, binary.BigEndian, &p); err != nil {
 		return RAWv1{}, err
-	}
-
-	if p.ManufacturerID != ManufacturerID {
-		return RAWv1{}, ErrManufacturerID
 	}
 
 	return RAWv1{
