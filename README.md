@@ -47,6 +47,10 @@ func main() {
 }
 ```
 
+```sh
+{DataFormat:3 Humidity:36.5 Temperature:-2.01 Pressure:99538 Battery:3091 Acceleration:{X:-7 Y:-44 Z:1060}}
+```
+
 ### Using together with [github.com/go-ble/ble](https://github.com/go-ble/ble)
 
 ```go
@@ -88,6 +92,22 @@ func handler(a ble.Advertisement) {
 func filter(a ble.Advertisement) bool {
 	return bytes.HasPrefix(a.ManufacturerData(), []byte{0x99, 0x4, 0x3})
 }
+```
+
+```sh
+[73cec0e0d7cf46a4b7cd90e847fd3564] RSSI: -80: {DataFormat:3 Humidity:45 Temperature:22.8 Pressure:99522 Battery:3097 Acceleration:{X:10 Y:-46 Z:1044}}
+[40c9d52c44974cc296fe2b443aef6850] RSSI: -76: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99457 Battery:3103 Acceleration:{X:-24 Y:-40 Z:1009}}
+[40c9d52c44974cc296fe2b443aef6850] RSSI: -77: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99457 Battery:3103 Acceleration:{X:-27 Y:-39 Z:1008}}
+[73cec0e0d7cf46a4b7cd90e847fd3564] RSSI: -79: {DataFormat:3 Humidity:45 Temperature:22.8 Pressure:99522 Battery:3097 Acceleration:{X:10 Y:-43 Z:1048}}
+[73cec0e0d7cf46a4b7cd90e847fd3564] RSSI: -79: {DataFormat:3 Humidity:45 Temperature:22.8 Pressure:99521 Battery:3103 Acceleration:{X:11 Y:-44 Z:1049}}
+[73cec0e0d7cf46a4b7cd90e847fd3564] RSSI: -79: {DataFormat:3 Humidity:45 Temperature:22.8 Pressure:99522 Battery:3097 Acceleration:{X:10 Y:-42 Z:1050}}
+[40c9d52c44974cc296fe2b443aef6850] RSSI: -77: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99456 Battery:3103 Acceleration:{X:-30 Y:-42 Z:1012}}
+[649a163a6ad4462fa3b7dbedcbe47e25] RSSI: -99: {DataFormat:3 Humidity:64 Temperature:16.26 Pressure:99628 Battery:3103 Acceleration:{X:11 Y:118 Z:1033}}
+[73cec0e0d7cf46a4b7cd90e847fd3564] RSSI: -80: {DataFormat:3 Humidity:45 Temperature:22.8 Pressure:99523 Battery:3097 Acceleration:{X:7 Y:-45 Z:1049}}
+[649a163a6ad4462fa3b7dbedcbe47e25] RSSI: -99: {DataFormat:3 Humidity:64 Temperature:16.26 Pressure:99628 Battery:3103 Acceleration:{X:12 Y:119 Z:1038}}
+[40c9d52c44974cc296fe2b443aef6850] RSSI: -78: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99457 Battery:3103 Acceleration:{X:-26 Y:-41 Z:1010}}
+[40c9d52c44974cc296fe2b443aef6850] RSSI: -77: {DataFormat:3 Humidity:42.5 Temperature:23.17 Pressure:99457 Battery:3103 Acceleration:{X:-27 Y:-40 Z:1013}}
+[649a163a6ad4462fa3b7dbedcbe47e25] RSSI: -99: {DataFormat:3 Humidity:64 Temperature:16.26 Pressure:99630 Battery:3109 Acceleration:{X:14 Y:116 Z:1035}}
 ```
 
 ## License (MIT)
