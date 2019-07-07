@@ -7,12 +7,12 @@ import (
 
 // RAWv1 Data Format 3
 type RAWv1 struct {
-	DataFormat   uint8   // 3
-	Humidity     float64 // 0.0 % to 100 % in 0.5 % increments.
-	Temperature  float64 // -127.99 °C to +127.99 °C in 0.01 °C increments.
-	Pressure     uint32  // 50000 Pa to 115536 Pa in 1 Pa increments.
-	Battery      uint16  // 0 mV to 65536 mV in 1 mV increments, practically 1800 ... 3600 mV.
-	Acceleration         // -32000 to 32000 (mG), however the sensor on RuuviTag supports only 16 G max
+	DataFormat   uint8        // 3
+	Humidity     float64      // 0.0 % to 100 % in 0.5 % increments.
+	Temperature  float64      // -127.99 °C to +127.99 °C in 0.01 °C increments.
+	Pressure     uint32       // 50000 Pa to 115536 Pa in 1 Pa increments.
+	Acceleration Acceleration // -32000 to 32000 (mG), however the sensor on RuuviTag supports only 16 G max
+	Battery      uint16       // 0 mV to 65536 mV in 1 mV increments, practically 1800 ... 3600 mV.
 }
 
 // Acceleration vector
