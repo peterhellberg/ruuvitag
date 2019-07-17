@@ -1,7 +1,7 @@
 all: test
 
 test:
-	go test -v ./...
+	go test -v .
 
 README.md:
 	go get github.com/campoy/embedmd

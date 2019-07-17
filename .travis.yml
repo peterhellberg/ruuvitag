@@ -5,5 +5,3 @@ go: "1.12.7"
 dist: xenial
 
 install: echo "nothing to install"
-
-script: go test -v ./...
