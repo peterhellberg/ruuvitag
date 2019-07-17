@@ -2,7 +2,7 @@ package ruuvitag
 
 import "testing"
 
-func TestDecodeRAWv1(t *testing.T) {
+func TestParseRAWv1(t *testing.T) {
 	t.Run("OK", func(t *testing.T) {
 		for _, tt := range []struct {
 			data []byte
@@ -69,7 +69,7 @@ func TestDecodeRAWv1(t *testing.T) {
 				},
 			},
 		} {
-			raw, err := DecodeRAWv1(tt.data)
+			raw, err := ParseRAWv1(tt.data)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
@@ -84,7 +84,7 @@ func TestDecodeRAWv1(t *testing.T) {
 		t.Run("unexpected Manufacturer data length", func(t *testing.T) {
 			data := []byte{}
 
-			if _, err := DecodeRAWv1(data); err != ErrDataLength {
+			if _, err := ParseRAWv1(data); err != ErrDataLength {
 				t.Fatalf("expected error ErrDataLength")
 			}
 		})
@@ -97,7 +97,7 @@ func TestDecodeRAWv1(t *testing.T) {
 				0x0, 0x0, 0x0, 0x0,
 			}
 
-			if _, err := DecodeRAWv1(data); err != ErrManufacturerID {
+			if _, err := ParseRAWv1(data); err != ErrManufacturerID {
 				t.Fatalf("expected ManufacturerID, got %q", err)
 			}
 		})

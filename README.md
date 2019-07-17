@@ -23,6 +23,7 @@ This is a Go package for decoding [RuuviTag](https://ruuvi.com/ruuvitag-specs/) 
 
 ### Minimal example
 
+[embedmd]:# (examples/ruuvitag-minimal/ruuvitag-minimal.go)
 ```go
 package main
 
@@ -41,7 +42,7 @@ func main() {
 		0x04, 0x24, 0x0c, 0x13,
 	}
 
-	if raw, err := ruuvitag.DecodeRAWv1(data); err == nil {
+	if raw, err := ruuvitag.ParseRAWv1(data); err == nil {
 		fmt.Printf("%+v\n", raw)
 	}
 }
@@ -53,6 +54,7 @@ func main() {
 
 ### Using `ruuvitag` with [github.com/go-ble/ble](https://github.com/go-ble/ble)
 
+[embedmd]:# (examples/ruuvitag-ble/ruuvitag-ble.go)
 ```go
 package main
 
@@ -83,7 +85,7 @@ func main() {
 }
 
 func handler(a ble.Advertisement) {
-	raw, err := ruuvitag.DecodeRAWv1(a.ManufacturerData())
+	raw, err := ruuvitag.ParseRAWv1(a.ManufacturerData())
 	if err == nil {
 		fmt.Printf("[%s] RSSI: %3d: %+v\n", a.Addr(), a.RSSI(), raw)
 	}
@@ -112,6 +114,7 @@ func filter(a ble.Advertisement) bool {
 
 ### Publishing to `NATS`
 
+[embedmd]:# (examples/ruuvitag-nats/ruuvitag-nats.go)
 ```go
 package main
 
@@ -146,7 +149,7 @@ func main() {
 	ctx := ble.WithSigHandler(context.WithCancel(context.Background()))
 
 	ble.Scan(ctx, true, func(a ble.Advertisement) {
-		raw, err := ruuvitag.DecodeRAWv1(a.ManufacturerData())
+		raw, err := ruuvitag.ParseRAWv1(a.ManufacturerData())
 		if err == nil {
 			c.Publish("ruuvitag."+a.Addr().String(), struct {
 				ruuvitag.RAWv1

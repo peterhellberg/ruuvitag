@@ -22,13 +22,13 @@ type Acceleration struct {
 	Z int16
 }
 
-// DecodeRAWv1 from Bluetooth "Manufacturer Specific Data"-field.
+// ParseRAWv1 from Bluetooth "Manufacturer Specific Data"-field.
 //
 // Data Format 3 Protocol Specification (RAWv1) can be found at:
 //
 // https://github.com/ruuvi/ruuvi-sensor-protocols#data-format-3-protocol-specification-rawv1
 //
-func DecodeRAWv1(data []byte) (RAWv1, error) {
+func ParseRAWv1(data []byte) (RAWv1, error) {
 	if len(data) != 16 {
 		return RAWv1{}, ErrDataLength
 	}
