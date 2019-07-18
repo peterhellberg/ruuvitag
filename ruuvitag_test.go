@@ -2,6 +2,38 @@ package ruuvitag
 
 import "testing"
 
+func TestIsRAWv1(t *testing.T) {
+	t.Run("OK", func(t *testing.T) {
+		for _, tt := range []struct {
+			data []byte
+			want bool
+		}{
+			{
+				[]byte{
+					0x99, 0x04, 0x03, 0x4d,
+					0x17, 0x01, 0xc1, 0x87,
+					0x00, 0x08, 0xff, 0xd5,
+					0x04, 0x1a, 0x0c, 0x1f,
+				},
+				true,
+			},
+			{
+				[]byte{
+					0x88, 0x03, 0x06, 0x4d,
+					0x17, 0x01, 0xc1, 0x87,
+					0x00, 0x08, 0xff, 0xd5,
+					0x04, 0x1a, 0x0c, 0x1f,
+				},
+				false,
+			},
+		} {
+			if got, want := IsRAWv1(tt.data), tt.want; got != want {
+				t.Fatalf("IsRAWv1(%#v) = %v, want %v", tt.data, got, want)
+			}
+		}
+	})
+}
+
 func TestParseRAWv1(t *testing.T) {
 	t.Run("OK", func(t *testing.T) {
 		for _, tt := range []struct {

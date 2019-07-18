@@ -5,6 +5,12 @@ import (
 	"encoding/binary"
 )
 
+// Prefixes for manufacturer data handled by this package
+var (
+	manufacturerID      = []byte{0x99, 0x4}
+	manufacturerIDRAWv1 = []byte{0x99, 0x4, 0x3}
+)
+
 // RAWv1 Data Format 3
 type RAWv1 struct {
 	DataFormat   uint8        // 3
@@ -22,6 +28,11 @@ type Acceleration struct {
 	Z int16
 }
 
+// IsRAWv1 tests wether the byte slice data begins with the prefix 0x99 0x4 0x3
+func IsRAWv1(data []byte) bool {
+	return bytes.HasPrefix(data, manufacturerIDRAWv1)
+}
+
 // ParseRAWv1 from Bluetooth "Manufacturer Specific Data"-field.
 //
 // Data Format 3 Protocol Specification (RAWv1) can be found at:
@@ -33,7 +44,7 @@ func ParseRAWv1(data []byte) (RAWv1, error) {
 		return RAWv1{}, ErrDataLength
 	}
 
-	if !bytes.HasPrefix(data, []byte{0x99, 0x04}) {
+	if !bytes.HasPrefix(data, manufacturerID) {
 		return RAWv1{}, ErrManufacturerID
 	}
 
