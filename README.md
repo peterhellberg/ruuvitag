@@ -112,6 +112,66 @@ func filter(a ble.Advertisement) bool {
 [649a163a6ad4462fa3b7dbedcbe47e25] RSSI: -99: {DataFormat:3 Humidity:64 Temperature:16.26 Pressure:99630 Battery:3109 Acceleration:{X:14 Y:116 Z:1035}}
 ```
 
+### Using `ruuvitag` with [github.com/raff/goble](https://github.com/raff/goble) (compatible with macOS Mojave)
+
+[embedmd]:# (examples/ruuvitag-goble/ruuvitag-goble.go)
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/peterhellberg/ruuvitag"
+	"github.com/raff/goble"
+)
+
+func main() {
+	var quit chan bool
+
+	ble := goble.New()
+
+	ble.On("stateChange", func(ev goble.Event) bool {
+		switch ev.State {
+		case "poweredOn":
+			ble.StartScanning(nil, true)
+			return false
+		default:
+			ble.StopScanning()
+			quit <- true
+
+			return true
+		}
+	})
+
+	ble.On("discover", func(ev goble.Event) bool {
+		p := ev.Peripheral
+		a := p.Advertisement
+
+		if ruuvitag.IsRAWv1(a.ManufacturerData) {
+			if raw, err := ruuvitag.ParseRAWv1(a.ManufacturerData); err == nil {
+				fmt.Printf("[%s] RSSI: %d: %+v\n", p.Uuid, p.Rssi, raw)
+			}
+		}
+
+		return false
+	})
+
+	ble.Init()
+
+	<-quit
+}
+```
+
+```sh
+[1592c47816f74834a98dbea4e54b9812] RSSI: 27: {DataFormat:3 Humidity:48 Temperature:24.24 Pressure:101009 Acceleration:{X:-701 Y:-463 Z:595} Battery:3091}
+[a7bd46a2cac146f580c61b2fda061bad] RSSI: -87: {DataFormat:3 Humidity:45 Temperature:25.48 Pressure:101092 Acceleration:{X:-123 Y:0 Z:1030} Battery:3097}
+[1592c47816f74834a98dbea4e54b9812] RSSI: 27: {DataFormat:3 Humidity:48 Temperature:24.24 Pressure:101009 Acceleration:{X:-700 Y:-464 Z:594} Battery:3085}
+[42078647994e4f999f556488ad8a21eb] RSSI: 27: {DataFormat:3 Humidity:46 Temperature:23.37 Pressure:100947 Acceleration:{X:-27 Y:-42 Z:1012} Battery:3079}
+[1592c47816f74834a98dbea4e54b9812] RSSI: 16: {DataFormat:3 Humidity:48 Temperature:24.24 Pressure:101008 Acceleration:{X:-701 Y:-462 Z:593} Battery:3079}
+[a7bd46a2cac146f580c61b2fda061bad] RSSI: -89: {DataFormat:3 Humidity:45.5 Temperature:25.36 Pressure:101091 Acceleration:{X:-126 Y:4 Z:1028} Battery:3103}
+[a7bd46a2cac146f580c61b2fda061bad] RSSI: -89: {DataFormat:3 Humidity:45.5 Temperature:25.35 Pressure:101092 Acceleration:{X:-123 Y:2 Z:1023} Battery:3091}
+```
+
 ### Publishing to `NATS`
 
 [embedmd]:# (examples/ruuvitag-nats/ruuvitag-nats.go)
