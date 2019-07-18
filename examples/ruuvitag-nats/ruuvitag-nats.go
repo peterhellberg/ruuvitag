@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"time"
 
@@ -40,7 +39,7 @@ func main() {
 			}{raw, a.RSSI(), time.Now()})
 		}
 	}, func(a ble.Advertisement) bool {
-		return bytes.HasPrefix(a.ManufacturerData(), []byte{0x99, 0x4, 0x3})
+		return ruuvitag.IsRAWv1(a.ManufacturerData())
 	})
 
 	c.Close()

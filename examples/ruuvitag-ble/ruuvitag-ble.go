@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 
@@ -34,5 +33,5 @@ func handler(a ble.Advertisement) {
 }
 
 func filter(a ble.Advertisement) bool {
-	return bytes.HasPrefix(a.ManufacturerData(), []byte{0x99, 0x4, 0x3})
+	return ruuvitag.IsRAWv1(a.ManufacturerData())
 }
