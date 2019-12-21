@@ -1,7 +1,7 @@
 language: go
 
-go: "1.12.7"
+dist: bionic
 
-dist: xenial
+go: "1.13.5"
 
 install: echo "nothing to install"
