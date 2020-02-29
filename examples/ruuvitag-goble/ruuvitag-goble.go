@@ -28,9 +28,15 @@ func main() {
 	ble.On("discover", func(ev goble.Event) bool {
 		p := ev.Peripheral
 		a := p.Advertisement
+		d := a.ManufacturerData
 
-		if ruuvitag.IsRAWv1(a.ManufacturerData) {
-			if raw, err := ruuvitag.ParseRAWv1(a.ManufacturerData); err == nil {
+		switch {
+		case ruuvitag.IsRAWv2(d):
+			if raw, err := ruuvitag.ParseRAWv2(d); err == nil {
+				fmt.Printf("[%s] RSSI: %d: %+v\n", p.Uuid, p.Rssi, raw)
+			}
+		case ruuvitag.IsRAWv1(d):
+			if raw, err := ruuvitag.ParseRAWv1(d); err == nil {
 				fmt.Printf("[%s] RSSI: %d: %+v\n", p.Uuid, p.Rssi, raw)
 			}
 		}

@@ -10,7 +10,7 @@ deps:
 	go get -u github.com/nats-io/nats.go
 
 README.md:
-	go test ./...
+	go test .
 	go get github.com/campoy/embedmd
 	embedmd -w README.md
 
