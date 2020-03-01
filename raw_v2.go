@@ -1,9 +1,6 @@
 package ruuvitag
 
-import (
-	"bytes"
-	"encoding/binary"
-)
+import "bytes"
 
 var manufacturerIDRAWv2 = []byte{0x99, 0x4, 0x5}
 
@@ -39,7 +36,7 @@ func ParseRAWv2(data []byte) (RAWv2, error) {
 
 	r := bytes.NewReader(data[2:26])
 
-	if err := binary.Read(r, binary.BigEndian, &d); err != nil {
+	if err := readBigEndianBinary(r, &d); err != nil {
 		return RAWv2{}, err
 	}
 

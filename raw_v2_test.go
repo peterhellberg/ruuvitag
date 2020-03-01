@@ -152,4 +152,27 @@ func TestParseRAWv2(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("invalid input", func(t *testing.T) {
+		t.Run("unexpected Manufacturer data length", func(t *testing.T) {
+			data := []byte{}
+
+			if _, err := ParseRAWv2(data); err != ErrDataLength {
+				t.Fatalf("expected error ErrDataLength")
+			}
+		})
+
+		t.Run("unknown Manufacturer ID", func(t *testing.T) {
+			data := []byte{0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			}
+
+			if _, err := ParseRAWv2(data); err != ErrManufacturerID {
+				t.Fatalf("expected ManufacturerID, got %q", err)
+			}
+		})
+	})
 }

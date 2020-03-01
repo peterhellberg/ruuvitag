@@ -1,5 +1,10 @@
 package ruuvitag
 
+import (
+	"encoding/binary"
+	"io"
+)
+
 // Prefix for manufacturer data handled by this package
 var manufacturerID = []byte{0x99, 0x4}
 
@@ -23,4 +28,8 @@ type Acceleration struct {
 	X int16
 	Y int16
 	Z int16
+}
+
+func readBigEndianBinary(r io.Reader, data interface{}) error {
+	return binary.Read(r, binary.BigEndian, data)
 }
