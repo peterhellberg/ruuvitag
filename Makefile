@@ -6,7 +6,6 @@ test:
 deps:
 	go get -u github.com/go-ble/ble
 	go get -u github.com/raff/goble
-	go get -u github.com/mgutz/logxi/v1
 	go get -u github.com/nats-io/nats.go
 
 README.md:
