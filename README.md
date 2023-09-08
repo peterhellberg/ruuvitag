@@ -2,9 +2,9 @@
 
 <img src="https://ruuvi.com/i/u/ruuvi-tag-interior-2048x704.jpg" align="right" width="320">
 
-[![Build Status](https://travis-ci.org/peterhellberg/ruuvitag.svg?branch=master)](https://travis-ci.org/peterhellberg/ruuvitag)
+[![Build status](https://github.com/peterhellberg/ruuvitag/actions/workflows/test.yml/badge.svg)](https://github.com/peterhellberg/ruuvitag/actions/workflows/test.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/peterhellberg/ruuvitag)](https://goreportcard.com/report/github.com/peterhellberg/ruuvitag)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/peterhellberg/ruuvitag)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://pkg.go.dev/github.com/peterhellberg/ruuvitag)
 [![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/peterhellberg/ruuvitag#license-mit)
 
 This is a Go package for decoding [RuuviTag](https://ruuvi.com/ruuvitag-specs/) sensor data.
