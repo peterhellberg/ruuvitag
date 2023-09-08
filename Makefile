@@ -10,7 +10,6 @@ deps:
 
 README.md:
 	go test .
-	go get github.com/campoy/embedmd
-	embedmd -w README.md
+	go run github.com/campoy/embedmd@latest -w README.md
 
 .PHONY:all test deps README.md
